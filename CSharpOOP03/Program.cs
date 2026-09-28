@@ -1,4 +1,10 @@
-﻿namespace CSharpOOP03
+﻿using CSharpOOP01;
+using CSharpOOP02;
+using CSharpOOP02.@class;
+using System.Drawing;
+using System.Xml.Linq;
+
+namespace CSharpOOP03
 {
     internal class Program
     {
@@ -33,6 +39,80 @@
 
             #endregion
             #endregion
+
+            #region Part 02 — Practical
+            // a. Create a Driver.
+            Driver driver = new Driver("Ahmed Mohamed");
+            // b.Create a DeliveryCenter.
+            DeliveryCenter deliveryCenter = new DeliveryCenter("Main Office");
+            // c.Assign the Driver to the DeliveryCenter.
+            deliveryCenter.Driver = driver;
+
+            // d.Create one StandardShipment.
+            StandardShipment standardShipment = new StandardShipment( "SH001", "Laptop", 3m, 80m, new DeliveryAddress("Cairo", "Street 1", 10));
+            // e.Create one ExpressShipment.
+            ExpressShipment expressShipment = new ExpressShipment( "SH002", "Mobile Phone", 2m, 60m, new DeliveryAddress("Giza", "Street 2", 11), 30m);
+            // f.Create one InternationalShipment.
+            InternationalShipment internationalShipment = new InternationalShipment( "SH003", "Television", 8m, 120m, new DeliveryAddress("Alexandria", "Street 3", 12), "Germany", 100m );
+
+            // g.Add all shipments to the DeliveryCenter.
+            deliveryCenter.AddShipment(standardShipment); 
+            deliveryCenter.AddShipment(expressShipment);
+            deliveryCenter.AddShipment(internationalShipment);
+
+            Console.WriteLine("==========================================");
+            Console.WriteLine("Delivery Center");
+            Console.WriteLine("==========================================");
+            Console.WriteLine($"Driver : {deliveryCenter.Driver.Name}");
+            Console.WriteLine("------------------------------------------");
+            deliveryCenter.PrintAllShipments();
+
+            // DeliveryHelper 
+            // i. Call DeliveryHelper.PrintShipmentDetails()
+            Console.WriteLine("==========================================");
+            Console.WriteLine("Printing Using DeliveryHelper...");
+            Console.WriteLine();
+            DeliveryHelper.PrintShipmentDetails(standardShipment);
+            Console.WriteLine("Standard Shipment Printed Successfully.");
+            DeliveryHelper.PrintShipmentDetails(expressShipment);
+            Console.WriteLine("Express Shipment Printed Successfully.");
+            DeliveryHelper.PrintShipmentDetails(internationalShipment);
+            Console.WriteLine("International Shipment Printed Successfully.");
+            //  Update Weight 
+            // j. Demonstrate both versions of UpdateWeight()
+            Console.WriteLine();
+            Console.WriteLine("==========================================");
+            Console.WriteLine("Updating Weight..."); 
+            Console.WriteLine();
+            Console.WriteLine($"Original Weight : {standardShipment.Weight} KG");
+            // Version 1:
+            // UpdateWeight(weight);
+            Console.WriteLine($"Updated Weight : {standardShipment.Weight} KG");
+            // Version 2:
+            //UpdateWeight(weight, extraPackingWeight)
+            standardShipment.UpdateWeight(5m, 0.5m);
+            Console.WriteLine( $"Updated Weight After Packing : {standardShipment.Weight} KG" );
+           
+            
+            Console.WriteLine();
+           Console.WriteLine("==========================================");
+           Console.WriteLine("Printing Using Shipment[]...");
+           Console.WriteLine();
+           Shipment[] shipments = { standardShipment, expressShipment, internationalShipment };
+           foreach (Shipment shipment in shipments) 
+            { 
+                shipment.PrintShipment();
+                Console.WriteLine();
+            }
+  
+            CompletedShipment completedShipment = new CompletedShipment( "SH004", "Keyboard", 1m, 50m, new DeliveryAddress() );
+
+            PriorityInternationalShipment priorityShipment = new PriorityInternationalShipment( "SH005", "Camera", 5m, 100m, new DeliveryAddress(), "France", 80m ); 
+            priorityShipment.GenerateCustomsReport(); 
+
+            Console.WriteLine();
+            Console.WriteLine("==========================================");
+            #endregion
         }
-}
+    }
 }
